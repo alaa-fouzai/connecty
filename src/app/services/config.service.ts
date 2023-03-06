@@ -56,4 +56,11 @@ changePropertyState(id: any,state:any) {
     id:id
   }) 
 }
+CreateNewChat(propertyId,chatBotName) {
+  return this.http.post<any>(environment.CreateNewChat,{
+    token: localStorage.getItem('token'),
+    propertyId:propertyId,
+    chatBotName:chatBotName
+  }) 
+}
 }

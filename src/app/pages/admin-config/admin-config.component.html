@@ -134,10 +134,12 @@
           <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
-          
+          <label  class="form-label">Select a Property</label><br>
           <select class="form-select" [(ngModel)]="propertyselected" aria-label="Default select example" *ngFor="let item of property;let i = index">
             <option value="{{ item._id }}" >{{ item.Name }}</option>
-          </select>
+          </select><br>
+          <label  class="form-label">ChatBot Name</label><br>
+          <input type="text" class="form-control" [(ngModel)]="chatBotName" placeholder="name">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>

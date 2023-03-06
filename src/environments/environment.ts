@@ -12,7 +12,8 @@ export const environment = {
     GetChatBots: 'http://localhost:3000/api/ChatBots/',
     NewProperty: 'http://localhost:3000/api/property/AddNew',
     getAllProperty: 'http://localhost:3000/api/property/GetAll',
-    changePropertyState: 'http://localhost:3000/api/property/ChangeState'
+    changePropertyState: 'http://localhost:3000/api/property/ChangeState',
+    CreateNewChat: 'http://localhost:3000/api/chat/AddNew',
 };
 
 /*

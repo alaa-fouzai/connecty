@@ -19,6 +19,7 @@ export class AdminConfigComponent {
     public property : any = [{}];
   closeResult: string;
   propertyselected:string;
+  chatBotName:string;
     constructor(private modalService: NgbModal,private appService: AppService,private router:Router,private config:ConfigService,private toastr: ToastrService) {
       this.appService.getUser().subscribe(data => this.user = data);
       this.property = [{}]
@@ -84,6 +85,14 @@ export class AdminConfigComponent {
 		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
 			(result) => {
 				console.log("result: ", this.propertyselected);
+				console.log("chatBotName: ", this.chatBotName);
+        if (this.propertyselected && this.chatBotName) {
+          this.config.CreateNewChat(this.propertyselected,this.chatBotName).subscribe(data => {
+          console.log(data)
+        });
+        }else {
+          this.toastr.error('Please Fill out the form');
+        }
 			},
 			(reason) => {
 				console.log("My input: ", this.propertyselected);
