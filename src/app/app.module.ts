@@ -38,7 +38,8 @@ import {SidebarSearchComponent} from './components/sidebar-search/sidebar-search
 import { LiveChatComponent } from './pages/live-chat/live-chat.component';
 import { AdminConfigComponent } from './pages/admin-config/admin-config.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -76,13 +77,15 @@ registerLocaleData(localeEn, 'en-EN');
         AppRoutingModule,
         SweetAlert2Module.forRoot(),
         ReactiveFormsModule,
+        FormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot({
             timeOut: 3000,
             positionClass: 'toast-top-right',
             preventDuplicates: true
         }),
-        ProfabricComponentsModule
+        ProfabricComponentsModule,
+        NgbModule
     ],
     providers: [],
     bootstrap: [AppComponent]

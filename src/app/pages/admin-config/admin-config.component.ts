@@ -2,18 +2,27 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from '@services/app.service';
+import { ConfigService } from '@services/config.service';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
+import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-config',
   templateUrl: './admin-config.component.html',
-  styleUrls: ['./admin-config.component.scss']
+  styleUrls: ['./admin-config.component.scss'],
 })
 export class AdminConfigComponent {
     public user : any ={};
     AddNewChatBot : FormGroup;
-    constructor(private appService: AppService,private router:Router) {
+    public property : any = [{}];
+  closeResult: string;
+  propertyselected:string;
+    constructor(private modalService: NgbModal,private appService: AppService,private router:Router,private config:ConfigService,private toastr: ToastrService) {
       this.appService.getUser().subscribe(data => this.user = data);
+      this.property = [{}]
+      this.config.getProperty().subscribe(data => this.property = data);
     }
         
     async ngOnInit() {
@@ -25,19 +34,27 @@ export class AdminConfigComponent {
   addNew(){
     console.log("aadd new");
     Swal.fire({
-      title: 'Add New Chatbot',
-      input: 'text',
-      inputAttributes: {
-        autocapitalize: 'off'
-      },
+      title: 'Add New Property',
+      html:`<input type="text" id="name" class="swal2-input" placeholder="Name">
+      `,
       showCancelButton: true,
       confirmButtonText: 'Create',
       showLoaderOnConfirm: true,
-      preConfirm: (login) => {
-        console.log(login);
+      preConfirm: () => {
+        // @ts-ignore: Unreachable code error
+        const login = Swal.getPopup().querySelector('#name').value
+        console.log(login)
+        if (!login) {
+          Swal.showValidationMessage(`Please fill the information`)
+        }else {
+          console.log(login)
+          let res = this.config.setProperty(login);
+          console.log(res);
+          return { login: login }
+        }
         
       },
-      allowOutsideClick: () => !Swal.isLoading()
+      allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
@@ -47,4 +64,30 @@ export class AdminConfigComponent {
     })
   }
   submitAddNewChatBot(){}
+  getproperty(){
+    console.log(this.property);
+  }
+  async flipState(id,state){
+    console.log(!state);
+    await this.config.changePropertyState(id,!state).subscribe(res => {
+      console.log(res.status);
+      this.toastr.success(res.message);
+      this.config.getProperty().subscribe(data => this.property = data);
+    });
+
+  }
+  addNewChatBot() {
+    console.log("add new chatbot");
+    
+  }
+  open(content) {
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+			(result) => {
+				console.log("result: ", this.propertyselected);
+			},
+			(reason) => {
+				console.log("My input: ", this.propertyselected);
+			},
+		);
+	}
 }

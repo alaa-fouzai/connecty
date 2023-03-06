@@ -21,13 +21,12 @@ export class AppService {
     async loginByAuth({email, password}) {
         try {
             let token;
-            const resp = await this.http.post(environment.LoginURL,{
+            let resp = await this.http.post(environment.LoginURL,{
                 email : email,
                 password : password,
               }).subscribe(async data => {
                 if (data['status']=="ok") {
                 token = data['token']
-                console.log(token);
                 localStorage.setItem('token',token);
                 await this.getProfile();
                 this.router.navigate(['/']);
@@ -51,9 +50,7 @@ export class AppService {
                 password : password,
                 enabled : 1
               }).subscribe(async data => {
-                
                 token = data['token']
-                console.log(token);
                 localStorage.setItem('token',token);
                 await this.getProfile();
                 this.router.navigate(['/']);
@@ -117,7 +114,6 @@ export class AppService {
         await this.http.post<any>(environment.GetUserURL,{
                 token: localStorage.getItem('token')
               }).subscribe(data => {
-                console.log(data)
                 this.users.next(data);
               })       
     }

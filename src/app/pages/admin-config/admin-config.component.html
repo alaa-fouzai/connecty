@@ -28,18 +28,61 @@
           <div class="card-tools">
             <!-- Buttons, labels, and many other things can be placed here! -->
             <!-- Here is a label for example -->
-            <span class="badge badge-primary" >number</span>
+            <span class="badge badge-primary" >{{property.length}}</span>
           </div>
-          <div class="card-tools">
+          <div class="card-tools" style="margin-right: 20px;">
             <!-- Collapse Button -->
             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            
           </div>
           <!-- /.card-tools -->
         </div>
         <!-- /.card-header -->
         <div class="card-body">
             <p>Add new Property <button type="button" class="btn btn-tool" data-card-widget="collapse" (click)="addNew()"><i class="fas fa-plus"></i></button></p>
-          
+            <button (click)="getproperty()">click</button>
+            
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Property name</th>
+                  <th scope="col">Products</th>
+                  <th scope="col">State</th>
+                  <th scope="col">Config</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+
+                  
+                  <tr *ngFor="let item of property;let i = index">
+                    <th scope="row">1</th>
+                    <td>{{ item.Name }}</td>
+                    <td>
+                      <div *ngIf="item.Products; else elseBlock"> No Products</div>
+                      <ng-template #elseBlock>
+
+                        <div *ngFor="let Product of item.Products;">
+                          {{ Product.name }}
+                        </div>
+                      </ng-template>
+                      
+                    </td>
+                    <td>
+                      {{item.state}}
+                      <div *ngIf="item.state; else elseBlock1">
+                        <button type="button" class="btn btn-primary" (click)="flipState(item._id,item.state)" >Active</button>
+                      </div>
+                      <ng-template #elseBlock1>
+                        <button type="button" class="btn btn-danger" (click)="flipState(item._id,item.state)">Not Active</button>
+                      </ng-template>
+                    </td>
+                    <td><i class="fa fa-trash"></i><i class="fa fa-cog" aria-hidden="true"></i></td>
+                  </tr>
+
+              
+              </tbody>
+            </table>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -71,7 +114,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <p>Add new chatbot <button type="button" class="btn btn-tool" data-card-widget="collapse" (click)="addNew()"><i class="fas fa-plus"></i></button></p>
+            <p>Add new chatbot <button type="button" class="btn btn-tool" data-card-widget="collapse" (click)="open(content)"><i class="fas fa-plus"></i></button></p>
           
         </div>
         <!-- /.card-body -->
@@ -81,5 +124,26 @@
         <!-- /.card-footer -->
       </div>
       <!-- /.card -->
+
+
+      
+      <!--  Modal-->
+      <ng-template #content let-modal style="z-index: 1!important;">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Add new chatbot</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+          
+          <select class="form-select" [(ngModel)]="propertyselected" aria-label="Default select example" *ngFor="let item of property;let i = index">
+            <option value="{{ item._id }}" >{{ item.Name }}</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+        </div>
+      </ng-template>
+      <!--  / Modal-->
 </section>
 <!-- /.content -->
+

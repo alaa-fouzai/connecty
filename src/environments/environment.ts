@@ -9,7 +9,10 @@ export const environment = {
     GetUserURL: 'http://localhost:3000/api/users/user',
     LoginURL: 'http://localhost:3000/api/users/login',
     AdminConfiguration: 'http://localhost:3000/api/config/',
-    GetChatBots: 'http://localhost:3000/api/ChatBots/'
+    GetChatBots: 'http://localhost:3000/api/ChatBots/',
+    NewProperty: 'http://localhost:3000/api/property/AddNew',
+    getAllProperty: 'http://localhost:3000/api/property/GetAll',
+    changePropertyState: 'http://localhost:3000/api/property/ChangeState'
 };
 
 /*
