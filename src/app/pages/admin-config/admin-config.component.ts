@@ -17,6 +17,7 @@ export class AdminConfigComponent {
     public user : any ={};
     AddNewChatBot : FormGroup;
     public property : any = [{}];
+    public chat : any = [{}];
   closeResult: string;
   propertyselected:string;
   chatBotName:string;
@@ -24,6 +25,7 @@ export class AdminConfigComponent {
       this.appService.getUser().subscribe(data => this.user = data);
       this.property = [{}]
       this.config.getProperty().subscribe(data => this.property = data);
+      this.config.getChat().subscribe(data => {this.chat = data; console.log(data)});
     }
         
     async ngOnInit() {
@@ -88,7 +90,10 @@ export class AdminConfigComponent {
 				console.log("chatBotName: ", this.chatBotName);
         if (this.propertyselected && this.chatBotName) {
           this.config.CreateNewChat(this.propertyselected,this.chatBotName).subscribe(data => {
-          console.log(data)
+          this.toastr.success(data.message);
+          console.log(data.message);
+          this.config.getProperty().subscribe(data => this.property = data);
+          this.config.getChat().subscribe(data => {this.chat = data; console.log(data)});
         });
         }else {
           this.toastr.error('Please Fill out the form');

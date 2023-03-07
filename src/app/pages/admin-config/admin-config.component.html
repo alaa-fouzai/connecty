@@ -59,11 +59,14 @@
                     <th scope="row">1</th>
                     <td>{{ item.Name }}</td>
                     <td>
-                      <div *ngIf="item.Products; else elseBlock"> No Products</div>
+                      <div *ngFor="let Product of item.Products;">
+                        {{ Product.chat }}
+                      </div>
+                      <div *ngIf="item.Products != '[]' ; else elseBlock"> No Products</div>
                       <ng-template #elseBlock>
 
                         <div *ngFor="let Product of item.Products;">
-                          {{ Product.name }}
+                          active
                         </div>
                       </ng-template>
                       

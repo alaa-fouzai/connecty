@@ -25,9 +25,11 @@ export class ConfigService {
       });
   }
   
-  async getChatBotsfromDB() {
-    await this.http.post<any>(environment.GetUserURL,{
+async getChatfromDB() {
+    await this.http.get<any>(environment.GetChat,{
+      params: {
             token: localStorage.getItem('token')
+          }
           }).subscribe(data => {
             this.chatBots.next(data);
           })       
@@ -42,8 +44,8 @@ async getPropertyfromDB() {
     this.Property.next(data.propertys);
   })       
 }
-getChatBots(): Observable<object> {
-    this.getChatBotsfromDB();
+getChat(): Observable<object> {
+    this.getChatfromDB();
       return this.chatBots;
 }
 getProperty(): Observable<object> {
