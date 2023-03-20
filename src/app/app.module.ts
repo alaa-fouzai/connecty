@@ -40,6 +40,7 @@ import { AdminConfigComponent } from './pages/admin-config/admin-config.componen
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { IntegrationComponent } from './pages/admin-config/integration/integration.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -68,7 +69,8 @@ registerLocaleData(localeEn, 'en-EN');
         ControlSidebarComponent,
         SidebarSearchComponent,
         LiveChatComponent,
-        AdminConfigComponent
+        AdminConfigComponent,
+        IntegrationComponent
     ],
     imports: [
         BrowserModule,

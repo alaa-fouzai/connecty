@@ -18,6 +18,7 @@ export class AdminConfigComponent {
     AddNewChatBot : FormGroup;
     public property : any = [{}];
     public chat : any = [{}];
+    public integrationId:string;
   closeResult: string;
   propertyselected:string;
   chatBotName:string;
@@ -25,7 +26,9 @@ export class AdminConfigComponent {
       this.appService.getUser().subscribe(data => this.user = data);
       this.property = [{}]
       this.config.getProperty().subscribe(data => this.property = data);
-      this.config.getChat().subscribe(data => {this.chat = data; console.log(data)});
+      this.config.getChat().subscribe(data => {
+        this.chat = data; 
+        console.log(data)});
     }
         
     async ngOnInit() {
@@ -33,6 +36,9 @@ export class AdminConfigComponent {
           this.router.navigate(['/'])
       }
   }
+  ngOnDestroy() {
+    
+ }
 
   addNew(){
     console.log("aadd new");
@@ -78,6 +84,14 @@ export class AdminConfigComponent {
       this.config.getProperty().subscribe(data => this.property = data);
     });
 
+  }
+  flipchatState(id,state){
+
+  }
+  Integration(id){
+    this.config.integrationId = id;
+    this.router.navigate(["/integration"])
+    
   }
   addNewChatBot() {
     console.log("add new chatbot");

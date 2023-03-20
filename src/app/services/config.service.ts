@@ -12,7 +12,7 @@ export class ConfigService {
   
   private chatBots =new BehaviorSubject<Object>({});
   private Property =new BehaviorSubject<Object>([{}]);
-
+  public integrationId : string;
   constructor(private router: Router, private toastr: ToastrService,private http: HttpClient) { }
   
   async setProperty(PropertyName){
