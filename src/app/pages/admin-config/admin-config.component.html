@@ -60,19 +60,16 @@
                     <td>{{ item.Name }}</td>
                     <td>
                       <div *ngFor="let Product of item.Products;">
-                        {{ Product.chat }}
                       </div>
-                      <div *ngIf="item.Products != '[]' ; else elseBlock"> No Products</div>
+                      <div *ngIf="item.Products?.length == 0 ; else elseBlock"> No Products</div>
                       <ng-template #elseBlock>
-
                         <div *ngFor="let Product of item.Products;">
-                          active
+                          <div *ngIf="item.Products.chat != {} ; else elseChat">Chat : {{ Product.chat.Name }}</div><ng-template #elseChat>Chat : Not Active</ng-template>
                         </div>
                       </ng-template>
                       
                     </td>
                     <td>
-                      {{item.state}}
                       <div *ngIf="item.state; else elseBlock1">
                         <button type="button" class="btn btn-primary" (click)="flipState(item._id,item.state)" >Active</button>
                       </div>
@@ -141,7 +138,6 @@
                     <button type="button" class="btn btn-primary" (click)="Integration(item._id)" >Integration</button>
                   </td>
                   <td>
-                    {{item.state}}
                     <div *ngIf="item.state; else elseBlock1">
                       <button type="button" class="btn btn-primary" (click)="flipchatState(item._id,item.state)" >Active</button>
                     </div>

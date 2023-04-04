@@ -13,4 +13,7 @@ export class IntegrationComponent {
   constructor(private router:Router,private config:ConfigService,private toastr: ToastrService) {
   this.id =this.config.integrationId;
   }
+  async ngOnInit() {
+    
+  }
 }
