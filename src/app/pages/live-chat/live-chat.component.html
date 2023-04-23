@@ -18,72 +18,57 @@
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Title</h3>
-
-            <div class="card-tools">
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-widget="collapse"
-                    data-toggle="tooltip"
-                    title="Collapse"
-                >
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-widget="remove"
-                    data-toggle="tooltip"
-                    title="Remove"
-                >
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            Start creating your amazing application!
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">Footer</div>
-        <!-- /.card-footer-->
+    <button (click)="test()">test</button>
+    <div class="row">
+    <div *ngIf="!this.chat; else elseBlock">
+        no data
     </div>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Title</h3>
 
-            <div class="card-tools">
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-widget="collapse"
-                    data-toggle="tooltip"
-                    title="Collapse"
-                >
-                    <i class="fa fa-minus"></i>
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-widget="remove"
-                    data-toggle="tooltip"
-                    title="Remove"
-                >
-                    <i class="fa fa-times"></i>
-                </button>
+    <ng-template #elseBlock>
+    
+    <div class="col-sm-6">
+        <div *ngFor="let item of this.chat;" >
+            {{ item._id }}
+            <div class="col-sm-6">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                    <div class="info-box-content">
+                    <span class="info-box-text">Messages</span>
+                    <span class="info-box-number">1,410</span>
+                    </div>
+                </div>
+                
             </div>
+            <div class="card card-primary">
+                <div class="card-header">
+                <h3 class="card-title">{{ item.Name }}</h3>
+                <div class="card-tools">
+                    <!-- Buttons, labels, and many other things can be placed here! -->
+                    <!-- Here is a label for example -->
+                    <span class="badge badge-primary">Label</span>
+                </div>
+                <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                <p>Js Script :{{ item.Script }}</p>
+                <p>Style :{{ item.Style }}</p>
+                <p>state :{{ item.state }}</p>
+                <button class="btn btn-primary" (click)="conversation(item._id,item.state)">access conversation</button>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                The footer of the card
+                </div>
+                <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
         </div>
-        <div class="card-body">
-            Start creating your amazing application!
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">Footer</div>
-        <!-- /.card-footer-->
     </div>
-</div>
+
+
+    </ng-template>
+
+    </div>
 </section>
 <!-- /.content -->

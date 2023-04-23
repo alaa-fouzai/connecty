@@ -77,16 +77,18 @@ export class AdminConfigComponent {
     console.log(this.property);
   }
   async flipState(id,state){
-    console.log(!state);
     await this.config.changePropertyState(id,!state).subscribe(res => {
-      console.log(res.status);
       this.toastr.success(res.message);
       this.config.getProperty().subscribe(data => this.property = data);
     });
 
   }
-  flipchatState(id,state){
-
+  async flipchatState(id,state){
+    await this.config.changeChatState(id,!state).subscribe(res => {
+      this.toastr.success(res.message);
+      this.config.getChat().subscribe(data => {
+        this.chat = data; });
+    });
   }
   Integration(id){
     this.config.integrationId = id;
