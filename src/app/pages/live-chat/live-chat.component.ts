@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AppService } from '@services/app.service';
 import { ConfigService } from '@services/config.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConversationComponent } from './conversation/conversation.component';
+import { ConversationService } from './conversation/conversation.service';
 
 @Component({
   selector: 'app-live-chat',
@@ -12,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LiveChatComponent {
   public user : any ={};
   public chat : any = [{}];
-  constructor(private appService: AppService,private router:Router,private config:ConfigService,private toastr: ToastrService) {
+  constructor(private conv:ConversationService, private appService: AppService,private router:Router,private config:ConfigService,private toastr: ToastrService) {
     this.appService.getUser().subscribe(data => this.user = data);
     this.config.getChat().subscribe((data : any) => {
       this.chat = data.Chat;
@@ -30,7 +32,8 @@ export class LiveChatComponent {
   conversation(id,state){
     console.log(id);
     console.log(state);
-    
+    this.conv.setChatBotId(id);
+    this.router.navigate(["/conversation"])
   }
   getStatistics() {
   }

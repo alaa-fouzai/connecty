@@ -15,6 +15,7 @@ import {SubMenuComponent} from '@pages/main-menu/sub-menu/sub-menu.component';
 import { LiveChatComponent } from '@pages/live-chat/live-chat.component';
 import { AdminConfigComponent } from '@pages/admin-config/admin-config.component';
 import { IntegrationComponent } from '@pages/admin-config/integration/integration.component';
+import { ConversationComponent } from '@pages/live-chat/conversation/conversation.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,10 @@ const routes: Routes = [
             {
                 path: 'integration',
                 component: IntegrationComponent
+            },
+            {
+                path: 'conversation',
+                component: ConversationComponent
             },
             {
                 path: 'blank',

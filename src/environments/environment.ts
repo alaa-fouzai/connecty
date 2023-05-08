@@ -16,6 +16,13 @@ export const environment = {
     changeChatState: 'http://localhost:3000/api/chat/ChangeState',
     CreateNewChat: 'http://localhost:3000/api/chat/AddNew',
     GetChat: 'http://localhost:3000/api/chat/getChat',
+    GetSingleChat: 'http://localhost:3000/api/chat/getSingleChat',
+    GetConversations: 'http://localhost:3000/api/conversation/GetConversations',
+    SendAdminMessage: 'http://localhost:3000/api/conversation/AdminMessage',
+
+
+    connectToSocket:"http://localhost:4000",
+    instantMassaging:""
 };
 
 /*

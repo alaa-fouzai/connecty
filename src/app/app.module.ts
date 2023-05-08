@@ -41,10 +41,12 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { IntegrationComponent } from './pages/admin-config/integration/integration.component';
-
+import { ConversationComponent } from './pages/live-chat/conversation/conversation.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
 
+const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 @NgModule({
     declarations: [
         AppComponent,
@@ -70,7 +72,8 @@ registerLocaleData(localeEn, 'en-EN');
         SidebarSearchComponent,
         LiveChatComponent,
         AdminConfigComponent,
-        IntegrationComponent
+        IntegrationComponent,
+        ConversationComponent
     ],
     imports: [
         BrowserModule,
@@ -87,7 +90,8 @@ registerLocaleData(localeEn, 'en-EN');
             preventDuplicates: true
         }),
         ProfabricComponentsModule,
-        NgbModule
+        NgbModule,
+        SocketIoModule.forRoot(config)
     ],
     providers: [],
     bootstrap: [AppComponent]
