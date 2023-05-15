@@ -1,6 +1,6 @@
 <p>conversation works!</p>
 <div>{{ chatbot.Name }}</div>
-<div *ngFor="let item of this.conversations;" >
+<div *ngFor="let item of this.displayedConversations;" >
 Conversation with :{{ item.Name }}
    
 </div>
@@ -22,76 +22,113 @@ Conversation with :{{ item.Name }}
     </div>
     <!-- /.container-fluid -->
 </section>
-
-<!-- Main content -->
 <section class="content">
-chatbot name {{ chatbot.Name }}
-<div class="row">
-
-
-<div class="col-md-6" *ngFor="let item of this.conversations;">
-    {{ item }}
-<div class="card card-primary direct-chat direct-chat-primary">
-    <div class="card-header">
-        <h3 class="card-title">Direct Chat with :{{ item.Name }}</h3>
-        <div class="card-tools">
-            <span data-toggle="tooltip" title="3 New Messages" class="badge badge-light">3</span>
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
-                <i class="fas fa-comments"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
-            </button>
+    chatbot name {{ chatbot.Name }}
+        <div class="row">
+    
+    
+    
+    
+    
+    
+            <div class="col-md-3 d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 280px;">
+                <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+                    <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                    <span class="fs-5 fw-semibold">Conversations</span>
+                </a>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                    <div *ngFor="let item of this.conversations;" >
+                        <a class="list-group-item list-group-item-action active py-3 lh-tight ticket" id="{{item._id}}" [ngClass]=" item.state ? 'chatactive' : 'chatnotactive' " aria-current="true" (click)="getConversationById(item._id)">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <strong class="mb-1">{{ item.Name }}</strong>
+                                <div>
+                                    <ng-container *ngIf="item.state; else elseBlock">
+                                        
+                                        <span class="badge badge-success right">Opened</span>
+                                    </ng-container> 
+                                    <ng-template #elseBlock>
+                                        <span class="right badge badge-danger">Closed</span>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="col-10 mb-1 small"> {{ item.texts?.[ item.texts.length -1 ].message }}</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+    
+    
+    
+            <div class="col-md-9">
+                <ng-container *ngFor="let item of this.displayedConversations;">
+                    <div class="col-md-5" style="display:inline-block" *ngIf="item.state">
+                        
+                    {{ item }}
+                            <div class="card card-primary direct-chat direct-chat-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Direct Chat with :{{ item.Name }}</h3>
+                                    <div class="card-tools">
+                                        <span data-toggle="tooltip" title="3 New Messages" class="badge badge-light">3</span>
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" (click)="OpenConversation(item._id)" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
+                                            <i class="fas fa-comments"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove" (click)="closeConversation(item._id)"><i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body ">
+        
+                                    <div class="direct-chat-messages ">
+        
+                                        <div *ngFor="let message of item.texts;">
+                                            <div *ngIf="message.owner =='client';else elseBlock" >
+                                                <div class="direct-chat-msg">
+                                                    <div class="direct-chat-infos clearfix">
+                                                        <span class="direct-chat-name float-left">{{ message.name }}</span>
+                                                        <span class="direct-chat-timestamp float-right">{{ message.timestamp*1000 | date: 'd MMM h:mm a' }}</span>
+                                                    </div>
+                                                    <img class="direct-chat-img" src="https://adminlte.io/docs/3.2/assets/img/user1-128x128.jpg" alt="message user image">
+                                                        <div class="direct-chat-text">
+                                                                                        {{ message.message }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ng-template #elseBlock>
+                                                    <div class="direct-chat-msg right">
+                                                        <div class="direct-chat-infos clearfix">
+                                                            <span class="direct-chat-name float-right">{{ message.name }}</span>
+                                                            <span class="direct-chat-timestamp float-left">{{ message.timestamp*1000 | date: 'd MMM h:mm a' }}</span>
+                                                        </div>
+                                                        <img class="direct-chat-img" src="https://adminlte.io/docs/3.2/assets/img/user3-128x128.jpg" alt="message user image">
+                                                            <div class="direct-chat-text">
+                                                                                        {{ message.message }}
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>                                
+                                            </div>
+                                            <div class="card-footer">
+                                                <form action="#" method="post">
+                                                    <div class="input-group">
+                                                        <input type="text" name="message" id="AdminMessage{{ item._id }}" placeholder="Type Message ..." class="form-control" (click)="messageViewed(item._id)">
+                                                            <span class="input-group-append">
+                                                                <button type="button" class="btn btn-primary" (click)="sendAdminMessage(item._id)">Send</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+        
+        
+                                            </div>
+                                        </div>
+                                    
+                    </div>
+                </ng-container>
         </div>
     </div>
-    <div class="card-body">
-
-        <div class="direct-chat-messages">
-
-                    <div *ngFor="let message of item.texts;">
-                        <div *ngIf="message.owner =='client';else elseBlock" >
-                            <div class="direct-chat-msg">
-                            <div class="direct-chat-infos clearfix">
-                            <span class="direct-chat-name float-left">{{ message.name }}</span>
-                            <span class="direct-chat-timestamp float-right">{{ message.timestamp*1000 | date: 'd MMM h:mm a' }}</span>
-                            </div>
-                            <img class="direct-chat-img" src="https://adminlte.io/docs/3.2/assets/img/user1-128x128.jpg" alt="message user image">
-                            <div class="direct-chat-text">
-                            {{ message.message }}
-                            </div>
-                            </div>
-                        </div>
-                        <ng-template #elseBlock>
-                            <div class="direct-chat-msg right">
-                            <div class="direct-chat-infos clearfix">
-                            <span class="direct-chat-name float-right">{{ message.name }}</span>
-                            <span class="direct-chat-timestamp float-left">{{ message.timestamp*1000 | date: 'd MMM h:mm a' }}</span>
-                            </div>
-                            <img class="direct-chat-img" src="https://adminlte.io/docs/3.2/assets/img/user3-128x128.jpg" alt="message user image">
-                            <div class="direct-chat-text">
-                            {{ message.message }}
-                            </div>
-                            </div>
-                        </ng-template>
-                    </div>                                
-        </div>
-        <div class="card-footer">
-            <form action="#" method="post">
-            <div class="input-group">
-            <input type="text" name="message" id="AdminMessage{{ item._id }}" placeholder="Type Message ..." class="form-control" (click)="messageViewed(item._id)">
-            <span class="input-group-append">
-            <button type="button" class="btn btn-primary" (click)="sendAdminMessage(item._id)">Send</button>
-            </span>
-            </div>
-            </form>
-            </div>
-
-
-</div>
-</div>
-</div>
-</div>
 </section>
-<!-- /.content -->
+                <!-- /.content -->

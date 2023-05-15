@@ -18,6 +18,9 @@ export const environment = {
     GetChat: 'http://localhost:3000/api/chat/getChat',
     GetSingleChat: 'http://localhost:3000/api/chat/getSingleChat',
     GetConversations: 'http://localhost:3000/api/conversation/GetConversations',
+    CloseConversations: 'http://localhost:3000/api/conversation/CloseConversations',
+    OpenConversations: 'http://localhost:3000/api/conversation/OpenConversations',
+    GetConversationsById: 'http://localhost:3000/api/conversation/GetConversationsById',
     SendAdminMessage: 'http://localhost:3000/api/conversation/AdminMessage',
 
 

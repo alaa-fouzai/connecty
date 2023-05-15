@@ -42,7 +42,6 @@ export class ConversationService {
 // get all conversations
 async getConversationsfromDB() {
   if (this.ChatBotId) {
-    console.log(this.ChatBotId);
   await this.http.get<any>(environment.GetConversations,{
     params: {
           token: localStorage.getItem('token'),
@@ -50,7 +49,6 @@ async getConversationsfromDB() {
         }
         }).subscribe(data => {
           this.conversations.next(data.Conversation);
-          console.log(data.Conversation);
         })       
       } else {
         this.toastr.error('error', 'could net get conversations from DB');
@@ -62,6 +60,7 @@ async SentAdminMessageToDb(ConversationId,Message,user) {
   this.socket.emit('AdminEmit', {
     token: localStorage.getItem('token'),
     Message: Message,
+    chatId:this.ChatBotId,
     ConversationId:ConversationId,
     email:user.email,
     LastName:user.LastName,
@@ -69,7 +68,45 @@ async SentAdminMessageToDb(ConversationId,Message,user) {
   });
   }
 getMessage() {
-  this.socket.emit('create', this.ChatBotId);
+  this.socket.emit('create', {type:"admin",chatId:this.ChatBotId});
   return this.socket.fromEvent('clientMessage');
+}
+  async CloseConversation(id) {
+  if (id) {
+    
+    await this.http.post<any>(environment.CloseConversations,{
+            token: localStorage.getItem('token'),
+            ConversationId: id
+          }).subscribe(data => {
+            this.toastr.success('success', data.message);
+          })       
+        } else {
+          this.toastr.error('error', 'could not Close the conversation');
+          console.log("no chatbot Id");
+        }
+}
+async OpenConversation(id) {
+  if (id) {
+    await this.http.post<any>(environment.OpenConversations,{
+            token: localStorage.getItem('token'),
+            ConversationId: id
+          }).subscribe(data => {
+            this.toastr.success(data.message,'success');
+          })       
+        } else {
+          this.toastr.error('error', 'could not open Conversation');
+          console.log("no chatbot Id");
+        }
+}
+async getConversationById(id) {
+  if (id) {
+    return await this.http.post<any>(environment.GetConversationsById,{
+            token: localStorage.getItem('token'),
+            ConversationId: id
+          })   
+        } else {
+          this.toastr.error('error', 'could not open Conversation');
+          console.log("no chatbot Id");
+        }
 }
 }
