@@ -52,7 +52,24 @@ export class ConversationComponent {
     let message=(<HTMLInputElement>document.getElementById('AdminMessage'+id)).value;
     console.log(this.user);
     if (message) {
-      this.conv.SentAdminMessageToDb(id,message,this.user);
+      console.log(id);
+      console.log(this.displayedConversations);//_id
+      let i = this.displayedConversations.findIndex(o => o._id === id);
+      
+      let obj ={
+        _id: "",
+        message: message,
+        email: this.user.email,
+        name: this.user.name,
+        owner: "admin",
+        seen: false,
+        timestamp: Math.floor(Date.now() / 1000)
+    }
+    this.displayedConversations[i].texts.push(obj);
+    let tab = document.getElementById("conversation"+id);
+    console.log(tab)
+    tab.scrollTop = tab.scrollHeight;
+      //this.conv.SentAdminMessageToDb(id,message,this.user);
     } else {
       this.toastr.error('Please add a message', 'No Message');
     }

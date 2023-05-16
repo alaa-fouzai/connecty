@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -48,6 +48,7 @@ async getConversationsfromDB() {
           ChatBotId: this.ChatBotId
         }
         }).subscribe(data => {
+          data.Conversation.reverse();
           this.conversations.next(data.Conversation);
         })       
       } else {
@@ -68,8 +69,12 @@ async SentAdminMessageToDb(ConversationId,Message,user) {
   });
   }
 getMessage() {
+  if(this.ChatBotId) {
   this.socket.emit('create', {type:"admin",chatId:this.ChatBotId});
   return this.socket.fromEvent('clientMessage');
+} return new Observable((observer) => {
+  observer.next(0);
+});
 }
   async CloseConversation(id) {
   if (id) {

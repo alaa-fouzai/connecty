@@ -82,7 +82,7 @@ Conversation with :{{ item.Name }}
                                 </div>
                                 <div class="card-body ">
         
-                                    <div class="direct-chat-messages ">
+                                    <div class="direct-chat-messages" id="conversation{{item._id}}">
         
                                         <div *ngFor="let message of item.texts;">
                                             <div *ngIf="message.owner =='client';else elseBlock" >
