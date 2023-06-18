@@ -59,7 +59,7 @@ async SentAdminMessageToDb(ConversationId,Message,user) {
   //send via socket
   this.socket.emit('AdminEmit', {
     token: localStorage.getItem('token'),
-    Message: Message,
+    message: Message,
     chatId:this.ChatBotId,
     ConversationId:ConversationId,
     email:user.email,
@@ -71,7 +71,7 @@ getMessage() {
   this.socket.emit('create', {type:"admin",chatId:this.ChatBotId});
   return this.socket.fromEvent('clientMessage');
 }
-  async CloseConversation(id) {
+async CloseConversation(id) {
   if (id) {
     
     await this.http.post<any>(environment.CloseConversations,{

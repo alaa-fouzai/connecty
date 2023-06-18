@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AppService } from '@services/app.service';
 import { ConversationService } from './conversation.service';
 import { Router } from '@angular/router';
@@ -26,6 +26,7 @@ export class ConversationComponent {
       this.displayedConversations = this.conversations;
     });
     this.conv.getMessage().subscribe((data:any)=>{
+
       var found = false;
       for(var i = 0; i < this.conversations.length; i++) {
           if (this.conversations[i]._id == data._id) {
@@ -39,10 +40,15 @@ export class ConversationComponent {
       this.conversations.push(data);
       this.OpenConversation(data._id);
       }
+      this.delay(500).then(() => document.getElementById(document.getElementById("chatmessages").lastElementChild.lastElementChild.lastElementChild.id).scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      
     });
 
   }
   ngOnInit() {
+    
+  }
+  ngAfterViewInit(): void {
   }
   messageViewed(conversationId) {
     console.log(conversationId);
@@ -75,6 +81,8 @@ export class ConversationComponent {
     if(this.displayedConversations.findIndex( x => x._id === id) < 0) {
     this.displayedConversations.push(this.conversations[element]);
     }
+    this.delay(500).then(() => document.getElementById(document.getElementById("chatmessages").lastElementChild.lastElementChild.lastElementChild.id).scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      
   }
   async getConversationById(id) {
     let element1 = this.conversations.findIndex( x => x._id === id);
@@ -85,12 +93,17 @@ export class ConversationComponent {
     (await this.conv.getConversationById(id)).subscribe(c => {
       this.displayedConversations.push(c.Conversation);
       this.toastr.success('success', "Conversation Opened");
+      
     })
     } else {
       this.toastr.success('success', "Conversation Already Opened");
     }
     document.getElementById(id).classList.remove("chatnotactive");
     document.getElementById(id).classList.add("chatactive");
-    
+    this.delay(500).then(() => document.getElementById(document.getElementById("chatmessages").lastElementChild.lastElementChild.lastElementChild.id).scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      
+  }
+  delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
   }
 }
