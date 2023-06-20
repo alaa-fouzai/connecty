@@ -56,9 +56,25 @@ export class ConversationComponent {
   }
   sendAdminMessage(id) {
     let message=(<HTMLInputElement>document.getElementById('AdminMessage'+id)).value;
-    console.log(this.user);
     if (message) {
-      this.conv.SentAdminMessageToDb(id,message,this.user);
+      this.conv.SentAdminMessageToDb(id,message,this.user).then((data) => {
+        let conv = this.displayedConversations.find(conv => conv._id === id)
+        console.log(conv);
+        let i = this.displayedConversations.indexOf(conv);
+        console.log(typeof(this.displayedConversations[i].texts));
+        console.log(this.displayedConversations[i].texts);
+        <Array<object>>this.displayedConversations[i].texts.push(
+          {"_id": "" + Math.floor(Date.now() / 1000),
+          "message":message,
+           "email" :this.user.email,
+           "name": this.user.FirstName +" "+this.user.LastName,
+           "owner": "Admin",
+           "seen": false,
+           "timestamp": Math.floor(Date.now() / 1000)
+          });
+        (<HTMLInputElement>document.getElementById('AdminMessage'+id)).value = "";
+        this.delay(500).then(() => document.getElementById(document.getElementById("chatmessages").lastElementChild.lastElementChild.lastElementChild.id).scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      });
     } else {
       this.toastr.error('Please add a message', 'No Message');
     }
@@ -91,6 +107,7 @@ export class ConversationComponent {
     if(element < 0) {
     //not exist in list
     (await this.conv.getConversationById(id)).subscribe(c => {
+      console.log(c.Conversation)
       this.displayedConversations.push(c.Conversation);
       this.toastr.success('success', "Conversation Opened");
       
