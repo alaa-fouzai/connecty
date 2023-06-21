@@ -43,6 +43,13 @@ import { FormsModule } from '@angular/forms';
 import { IntegrationComponent } from './pages/admin-config/integration/integration.component';
 import { ConversationComponent } from './pages/live-chat/conversation/conversation.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+// import ngx-translate and the http loader
+import {TranslateModule} from '@ngx-translate/core';
+import {TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient} from '@angular/common/http';
+
+
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
 
@@ -80,6 +87,13 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
         AppRoutingModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
         SweetAlert2Module.forRoot(),
         ReactiveFormsModule,
         FormsModule,
@@ -89,6 +103,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
             positionClass: 'toast-top-right',
             preventDuplicates: true
         }),
+        
         ProfabricComponentsModule,
         NgbModule,
         SocketIoModule.forRoot(config)
@@ -97,3 +112,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     bootstrap: [AppComponent]
 })
 export class AppModule {}
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http);
+}

@@ -1,7 +1,7 @@
 .direct-chat-messages{
   overflow: auto;
-
-  
+  display: flex;
+  flex-direction: column;
 }
 
 .ticket {
