@@ -8,11 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class DashboardComponent {
     constructor(public translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
+
       }
 
-    switchLang(lang :string) {
-        this.translate.use(lang);
-    }
 }
